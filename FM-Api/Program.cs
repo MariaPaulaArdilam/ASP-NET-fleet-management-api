@@ -1,5 +1,6 @@
 using FM_Api.DB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 
@@ -14,6 +15,11 @@ namespace FM_Api
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FM API", Version = "v1" });
+            });
+
             builder.Services.AddDbContext<DBContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -22,9 +28,11 @@ namespace FM_Api
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FM API v1"));
             }
             app.UseStaticFiles();
 
@@ -40,3 +48,4 @@ namespace FM_Api
         }
     }
 }
+   
