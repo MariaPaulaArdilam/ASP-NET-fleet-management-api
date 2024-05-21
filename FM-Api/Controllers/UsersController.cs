@@ -34,6 +34,28 @@ namespace FM_Api.Controllers
 
             return Ok(users);
         }
+        [HttpPatch("{id}")]
+
+        public async Task<IActionResult> ModifyUser(int id, [FromBody] Users userParam)
+        {
+        
+            var user = await _dbContext.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                
+                return NotFound();
+            }
+           
+            user.Email = userParam.Email ?? user.Email;
+            user.Role = userParam.Role ?? user.Role;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(user);
+
+
+        }
 
     }
 }
