@@ -25,5 +25,15 @@ namespace FM_Api.Controllers
                 .ToListAsync();
             return Ok(ListUser);
         }
+
+        [HttpPost]  
+        public async Task<IActionResult> AddUser(Users users)
+        {
+            _dbContext.Users.Add(users);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(users);
+        }
+
     }
 }
