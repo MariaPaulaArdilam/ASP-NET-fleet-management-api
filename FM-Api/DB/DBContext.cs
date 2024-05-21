@@ -34,10 +34,10 @@ namespace FM_Api.DB
                 tr.Property(col => col.Longitude).HasColumnType("double precision");
 
                 // Configuración de la relación con la tabla Taxi
-                tr.HasOne<Taxi>()
-                  .WithMany()
+                tr.HasOne(t => t.Taxi)
+                  .WithMany(t => t.Trajectories)
                   .HasForeignKey(tr => tr.TaxiId)
-                  .IsRequired();
+                  .IsRequired(); ;
             });
 
 
