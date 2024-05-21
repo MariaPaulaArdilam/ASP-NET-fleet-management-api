@@ -13,6 +13,8 @@ namespace FM_Api.DB
 
         public DbSet<Trajectorie> Trajectories { get; set; }
 
+        public DbSet<Users> Users { get; set; }
+
         //definir las caracteristicas de la tabla 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +45,12 @@ namespace FM_Api.DB
 
             modelBuilder.Entity<Trajectorie>().ToTable("Trajectorie");
 
+            modelBuilder.Entity<Users>(us =>
+            {
+                us.HasKey(col => col.Id);
+            });
+
+            modelBuilder.Entity<Users>().ToTable("Users");
         }
 
     }

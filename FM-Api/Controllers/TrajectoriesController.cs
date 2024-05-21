@@ -18,6 +18,7 @@ namespace FM_Api.Controllers
         {
             _dbContext = dbContext;
         }
+
         [HttpGet]
         public async Task<IActionResult> ListTrajectories(int id,DateTime date, int pageNumber, int pageSize)
         {
