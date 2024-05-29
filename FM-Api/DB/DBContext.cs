@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FM_Api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace FM_Api.DB
 {
-    public class DBContext : DbContext
+    public class DBContext : IdentityDbContext<Users>
     {
         public DBContext(DbContextOptions<DBContext> options) : base(options)
         {
@@ -11,9 +12,7 @@ namespace FM_Api.DB
 
         public DbSet<Taxi> Taxis { get; set; }
 
-        public DbSet<Trajectorie> Trajectories { get; set; }
-
-        public DbSet<Users> Users { get; set; }
+        public DbSet<Trajectory> Trajectories { get; set; }
 
         //definir las caracteristicas de la tabla 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,7 +26,7 @@ namespace FM_Api.DB
 
             modelBuilder.Entity<Taxi>().ToTable("Taxi");
 
-            modelBuilder.Entity<Trajectorie>(tr =>
+            modelBuilder.Entity<Trajectory>(tr =>
             {
                 tr.HasKey(col => col.Id);
                 tr.Property(col => col.Id).ValueGeneratedOnAdd();
@@ -35,22 +34,14 @@ namespace FM_Api.DB
                 tr.Property(col => col.Latitude).HasColumnType("double precision");
                 tr.Property(col => col.Longitude).HasColumnType("double precision");
 
-                // Configuración de la relación con la tabla Taxi
-                tr.HasOne(t => t.Taxi)
-                  .WithMany(t => t.Trajectories)
-                  .HasForeignKey(tr => tr.TaxiId)
-                  .IsRequired(); ;
+              
             });
 
 
-            modelBuilder.Entity<Trajectorie>().ToTable("Trajectorie");
+            modelBuilder.Entity<Trajectory>().ToTable("Trajectory");
 
-            modelBuilder.Entity<Users>(us =>
-            {
-                us.HasKey(col => col.Id);
-            });
 
-            modelBuilder.Entity<Users>().ToTable("Users");
+      
         }
 
     }

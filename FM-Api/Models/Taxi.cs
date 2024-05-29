@@ -5,7 +5,7 @@
 
         public int Id { get; set; }
         public string Plate { get; set; }
-        public ICollection<Trajectorie> Trajectories { get; set; }
+       // public ICollection<Trajectorie> Trajectories { get; set; }
 
 
 

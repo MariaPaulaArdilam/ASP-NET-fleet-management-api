@@ -20,22 +20,31 @@ namespace FM_Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListTrajectories(int id,DateTime date, int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<TrayectoryDTO>>> ListTrajectories(int id,DateTime date, int pageNumber, int pageSize)
         {
             var searchDate = DateTime.SpecifyKind(date.ToUniversalTime().Date, DateTimeKind.Unspecified);
 
-            List<Trajectorie> ListTrajectories = await _dbContext.Trajectories
+            List<Trajectory> ListTrajectories = await _dbContext.Trajectories
 
                 
-                .Where<Trajectorie>(t => t.TaxiId == id && t.Date.Date == date)
+                .Where<Trajectory>(t => t.TaxiId == id && t.Date.Date == date)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
+            var result = ListTrajectories
+                .Select(tr => new TrayectoryDTO
+                {
+                    TaxiId = tr.TaxiId,
+                    Latitude = tr.Latitude,
+                    Longitude = tr.Longitude,
+                    Date = tr.Date
 
-            return Ok(ListTrajectories);
+                }).ToList();
+
+            return Ok(result);
         }
 
         [HttpGet("LastTrayectory")]
-        public async Task<ActionResult<IEnumerable<Trajectorie>>> ListLastTrajectories(int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<Trajectory>>> ListLastTrajectories(int pageNumber, int pageSize)
         {
             var lastTarjectories = await _dbContext.Trajectories
                 .Include("Taxi")

@@ -15,6 +15,8 @@ namespace FM_Api
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddTransient<SeedDB>();
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FM API", Version = "v1" });
@@ -26,6 +28,8 @@ namespace FM_Api
             });
 
             var app = builder.Build();
+
+            SeedData(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -46,6 +50,18 @@ namespace FM_Api
 
             app.Run();
         }
+
+        static void SeedData(WebApplication app)
+        {
+            var scopedfactory = app.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopedfactory!.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetService<SeedDB>();
+                service!.SeedAsync().Wait();
+            }
+        }
     }
+
+   
 }
    
