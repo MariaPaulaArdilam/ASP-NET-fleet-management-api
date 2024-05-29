@@ -54,6 +54,23 @@ namespace FM_Api.Controllers
 
             return Ok(user);
 
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _dbContext.Users.FindAsync(id);
+
+            if (user == null)
+            {
+
+                return NotFound();
+            }
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(user);
 
         }
 

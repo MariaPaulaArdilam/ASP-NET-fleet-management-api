@@ -34,7 +34,7 @@ namespace FM_Api.Controllers
             return Ok(ListTrajectories);
         }
 
-        [HttpGet("ultimaTrayectoria")]
+        [HttpGet("LastTrayectory")]
         public async Task<ActionResult<IEnumerable<Trajectorie>>> ListLastTrajectories(int pageNumber, int pageSize)
         {
             var lastTarjectories = await _dbContext.Trajectories
