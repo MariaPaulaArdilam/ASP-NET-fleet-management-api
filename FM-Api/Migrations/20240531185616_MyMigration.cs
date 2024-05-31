@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FM_Api.Migrations
 {
     /// <inheritdoc />
@@ -31,8 +33,6 @@ namespace FM_Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -173,7 +173,7 @@ namespace FM_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trajectorie",
+                name: "Trajectory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -185,13 +185,22 @@ namespace FM_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trajectorie", x => x.Id);
+                    table.PrimaryKey("PK_Trajectory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trajectorie_Taxi_TaxiId",
+                        name: "FK_Trajectory_Taxi_TaxiId",
                         column: x => x.TaxiId,
                         principalTable: "Taxi",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "43e86114-daa8-4952-ba05-db152a10e771", null, "User", "USER" },
+                    { "8c57da1b-6ac3-48d3-9bf1-5dca0cbe12c3", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -232,8 +241,8 @@ namespace FM_Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trajectorie_TaxiId",
-                table: "Trajectorie",
+                name: "IX_Trajectory_TaxiId",
+                table: "Trajectory",
                 column: "TaxiId");
         }
 
@@ -256,7 +265,7 @@ namespace FM_Api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Trajectorie");
+                name: "Trajectory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

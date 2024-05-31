@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240529190203_MyMigration")]
+    [Migration("20240531185616_MyMigration")]
     partial class MyMigration
     {
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace FM_Api.Migrations
 
                     b.HasIndex("TaxiId");
 
-                    b.ToTable("Trajectorie", (string)null);
+                    b.ToTable("Trajectory", (string)null);
                 });
 
             modelBuilder.Entity("FM_Api.Models.Users", b =>
@@ -95,10 +95,6 @@ namespace FM_Api.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -115,10 +111,6 @@ namespace FM_Api.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -166,6 +158,20 @@ namespace FM_Api.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8c57da1b-6ac3-48d3-9bf1-5dca0cbe12c3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "43e86114-daa8-4952-ba05-db152a10e771",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
