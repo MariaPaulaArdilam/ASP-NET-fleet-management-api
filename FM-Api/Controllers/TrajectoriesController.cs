@@ -3,6 +3,7 @@ using FM_Api.DB;
 using FM_Api.DTO;
 using FM_Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace FM_Api.Controllers
@@ -10,6 +11,7 @@ namespace FM_Api.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TrajectoriesController : Controller
     {
         private readonly DBContext _dbContext;
